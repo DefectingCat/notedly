@@ -1,0 +1,28 @@
+.navi-wrap {
+  padding: 20px;
+  width: 200px;
+}
+.navi {
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: 18px;
+  &-btn {
+    display: inline-flex;
+    border-radius: 20px;
+    color: black;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 16px;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    align-items: center;
+    transition: all 0.3s ease;
+    span {
+      margin: 0 8px;
+    }
+  }
+  &-btn:hover {
+    color: #fff;
+    background-color: #83c9f7;
+  }
+}

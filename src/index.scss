@@ -1,0 +1,24 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.ant-layout-header,
+.ant-layout-sider {
+  background: transparent !important;
+}
+
+/* 首页垂直布局 */
+.ant-row,
+.ant-col {
+  height: 100%;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
