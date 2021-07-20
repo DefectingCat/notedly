@@ -9,20 +9,27 @@
   &-btn {
     display: inline-flex;
     border-radius: 20px;
-    color: black;
+    color: var(--btn-default-color);
     height: 44px;
     line-height: 44px;
     padding: 0 16px;
     margin-bottom: 6px;
     white-space: nowrap;
     align-items: center;
+    font-weight: bold;
     transition: all 0.3s ease;
     span {
       margin: 0 8px;
     }
   }
   &-btn:hover {
-    color: #fff;
-    background-color: #83c9f7;
+    color: var(--btn-hov);
+    background-color: var(--btn-bg);
+  }
+}
+
+.active {
+  .navi-btn {
+    color: var(--btn-color);
   }
 }

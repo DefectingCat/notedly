@@ -1,4 +1,6 @@
-.main-body {
+.main {
   height: 100%;
-  background-color: turquoise;
+  &-header {
+    padding: 4px !important;
+  }
 }
