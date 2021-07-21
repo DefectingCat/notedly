@@ -2,9 +2,8 @@ import React from 'react';
 import style from './home.module.scss';
 import NewPost from '../components/newPost/NewPost';
 import Post from '../components/posts/Post';
-import { PageHeader } from 'antd';
 import { useQuery, gql } from '@apollo/client';
-import { Card } from 'antd';
+import LoadingCard from '../components/common/LoadingCard';
 
 export interface Notes {
   id: string;
@@ -59,17 +58,11 @@ function Home(): JSX.Element {
 
   return (
     <main className={`${style['main']}`}>
-      <PageHeader
-        backIcon={false}
-        className={style['main-header']}
-        onBack={() => null}
-        title='首页'
-      />
       <NewPost />
       {error ? (
         <p>Loading failure</p>
       ) : loading ? (
-        <Card className={style['loading-card']} loading={loading} hoverable />
+        <LoadingCard loading />
       ) : (
         data?.noteFeed.notes.map((item) => {
           return <Post key={item.id} {...item} />;

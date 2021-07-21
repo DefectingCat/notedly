@@ -1,9 +1,18 @@
 import React from 'react';
+import { PageHeader } from 'antd';
+import style from './header.module.scss';
 
-export const Header = () => {
+const Header = (): JSX.Element => {
   return (
     <>
-      <header></header>
+      <PageHeader
+        backIcon={false}
+        className={style['main-header']}
+        onBack={() => null}
+        title='首页'
+      />
     </>
   );
 };
+
+export default Header;

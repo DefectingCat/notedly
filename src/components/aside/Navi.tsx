@@ -15,7 +15,7 @@ const routes = [
   },
 ];
 
-export const Navi = (): JSX.Element => {
+const Navi = (): JSX.Element => {
   return (
     <div className={style['navi-wrap']}>
       <nav className={style.navi}>
@@ -40,3 +40,5 @@ export const Navi = (): JSX.Element => {
     </div>
   );
 };
+
+export default Navi;
