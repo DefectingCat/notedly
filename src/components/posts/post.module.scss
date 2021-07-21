@@ -1,9 +1,25 @@
 .post-card {
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   background-color: var(--input-color) !important;
   margin: 10px 0 !important;
   &-body {
     margin-top: 14px;
     margin-left: 42px;
+  }
+  :global {
+    .ant-card-meta-title {
+      margin-bottom: 0 !important;
+    }
+    .ant-avatar {
+      width: 47px !important;
+      height: 47px !important;
+    }
+    .ant-card-actions {
+      background-color: var(--input-color) !important;
+      border-radius: 10px !important;
+      li {
+        margin: 0 !important;
+      }
+    }
   }
 }
