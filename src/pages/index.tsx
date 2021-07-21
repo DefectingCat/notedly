@@ -13,20 +13,20 @@ const Pages = (): JSX.Element => {
   return (
     <>
       <Router>
-        <Row className={style.layout}>
-          <Col span={9} className={`${style.side} ${style['side-left']}`}>
+        <Row justify='center'>
+          <Col xs={0} md={9} className={style.side}>
             <Navi />
           </Col>
-          <Col span={6}>
+          <Col xs={23} md={6}>
             <Header />
             <Route exact path='/' component={Home} />
             <Route path='/mynotes' component={MyNote} />
             <Route path='/note/:id' component={NotePage} />
           </Col>
-          <Col span={9} className={`${style.side} ${style['side-right']}`}>
+          <Col xs={0} md={9}>
             col-12
           </Col>
-        </Row>{' '}
+        </Row>
       </Router>
     </>
   );

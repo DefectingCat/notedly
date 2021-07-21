@@ -5,7 +5,7 @@ import style from './loadingcard.module.scss';
 const LoadingCard = ({ loading }: { loading: boolean }): JSX.Element => {
   return (
     <>
-      <Card className={style['loading-card']} loading={loading} hoverable />
+      <Card className={style['loading-card']} loading={loading} />
     </>
   );
 };

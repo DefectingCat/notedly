@@ -4,6 +4,7 @@ import NewPost from '../components/newPost/NewPost';
 import Post from '../components/posts/Post';
 import { useQuery, gql } from '@apollo/client';
 import LoadingCard from '../components/common/LoadingCard';
+import LoadError from '../components/common/LoadError';
 
 export interface Notes {
   id: string;
@@ -52,15 +53,14 @@ const GET_NOTES = gql`
 `;
 
 function Home(): JSX.Element {
-  const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
-    GET_NOTES
-  );
+  // fetchMore
+  const { data, loading, error } = useQuery<NoteKeys, CursorVars>(GET_NOTES);
 
   return (
     <main className={`${style['main']}`}>
       <NewPost />
       {error ? (
-        <p>Loading failure</p>
+        <LoadError />
       ) : loading ? (
         <LoadingCard loading />
       ) : (

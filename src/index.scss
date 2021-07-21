@@ -11,19 +11,12 @@
 html,
 body,
 #root {
-  height: 100%;
-  background-color: var(--main-bg);
+  background-color: var(--main-bg) !important;
 }
 
 .ant-layout-header,
 .ant-layout-sider {
   background: transparent !important;
-}
-
-/* 首页垂直布局 */
-.ant-row,
-.ant-col {
-  height: 100%;
 }
 
 .icon {

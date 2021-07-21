@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import style from './notepage.module.scss';
 import LoadingCard from '../components/common/LoadingCard';
+import LoadError from '../components/common/LoadError';
 
 const { Meta } = Card;
 
@@ -24,7 +25,6 @@ interface NoteClass {
   id: string;
   createdAt: string;
   content: string;
-  favoriteCount: number;
   author: Author;
 }
 
@@ -41,7 +41,6 @@ const GET_NOTE = gql`
       id
       createdAt
       content
-      favoriteCount
       author {
         id
         avatar
@@ -54,14 +53,16 @@ const GET_NOTE = gql`
 
 const NotePage = (): JSX.Element => {
   const { id } = useParams<Params>();
-  const { data, loading, error, fetchMore } = useQuery<Note, Params>(GET_NOTE, {
+  const { data, loading, error } = useQuery<Note, Params>(GET_NOTE, {
     variables: { id },
   });
+
+  if (error) return <LoadError />;
 
   if (loading) return <LoadingCard loading />;
 
   if (data) {
-    const { createdAt, content, favoriteCount, author } = data.note;
+    const { createdAt, content, author } = data.note;
 
     return (
       <div>
