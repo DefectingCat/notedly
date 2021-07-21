@@ -19,6 +19,9 @@
       border-radius: 10px !important;
       li {
         margin: 0 !important;
+        display: flex !important;
+        padding: 2px 16px;
+        cursor: unset;
       }
     }
   }

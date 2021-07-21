@@ -4,6 +4,7 @@ import NewPost from '../components/newPost/NewPost';
 import Post from '../components/posts/Post';
 import { PageHeader } from 'antd';
 import { useQuery, gql } from '@apollo/client';
+import { Card } from 'antd';
 
 export interface Notes {
   id: string;
@@ -65,9 +66,10 @@ function Home(): JSX.Element {
         title='首页'
       />
       <NewPost />
-
-      {loading ? (
-        <p>Loading...</p>
+      {error ? (
+        <p>Loading failure</p>
+      ) : loading ? (
+        <Card className={style['loading-card']} loading={loading} hoverable />
       ) : (
         data?.noteFeed.notes.map((item) => {
           return <Post key={item.id} {...item} />;

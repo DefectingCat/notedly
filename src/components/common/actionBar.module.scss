@@ -1,0 +1,15 @@
+.warpper {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 4px;
+    margin-right: 6px;
+  }
+}
+
+.action {
+  cursor: pointer;
+}
+.action:hover {
+  color: var(--btn-bg);
+}

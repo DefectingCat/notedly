@@ -3,4 +3,14 @@
   &-header {
     padding: 4px !important;
   }
+  :global {
+    .ant-card-actions > li > span:hover {
+      color: var(--btn-default-color);
+    }
+  }
+}
+.loading-card {
+  border-radius: 10px !important;
+  background-color: var(--input-color) !important;
+  margin: 10px 0 !important;
 }
