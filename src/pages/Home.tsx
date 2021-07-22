@@ -54,7 +54,7 @@ const GET_NOTES = gql`
   }
 `;
 
-const Home: React.FC = () => {
+const Home = (): JSX.Element => {
   // fetchMore
   const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
     GET_NOTES

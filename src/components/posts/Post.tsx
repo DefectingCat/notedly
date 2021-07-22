@@ -10,6 +10,7 @@ const { Meta } = Card;
 const Post = (props: Notes): JSX.Element => {
   const { author, content, createdAt, favoriteCount, id } = props;
   const history = useHistory();
+
   return (
     <>
       <Card

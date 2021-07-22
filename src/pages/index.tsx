@@ -10,7 +10,7 @@ import { Row, Col } from 'antd';
 import style from './pages.module.scss';
 import { BackTop } from 'antd';
 
-const Pages: React.FC = () => {
+const Pages = (): JSX.Element => {
   return (
     <>
       <Router>
