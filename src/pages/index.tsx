@@ -8,12 +8,13 @@ import NotePage from './NotePage';
 import Header from '../components/common/Header';
 import { Row, Col } from 'antd';
 import style from './pages.module.scss';
+import { BackTop } from 'antd';
 
 const Pages = (): JSX.Element => {
   return (
     <>
       <Router>
-        <Row justify='center'>
+        <Row justify='center' className={style.test}>
           <Col xs={0} md={9} className={style.side}>
             <Navi />
           </Col>
@@ -26,6 +27,7 @@ const Pages = (): JSX.Element => {
           <Col xs={0} md={9}>
             col-12
           </Col>
+          <BackTop />
         </Row>
       </Router>
     </>

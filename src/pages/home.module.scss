@@ -3,5 +3,8 @@
     .ant-card-actions > li > span:hover {
       color: var(--btn-default-color);
     }
+    .infinite-scroll-component {
+      overflow: unset !important;
+    }
   }
 }

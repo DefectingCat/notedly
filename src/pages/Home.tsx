@@ -5,6 +5,7 @@ import Post from '../components/posts/Post';
 import { useQuery, gql } from '@apollo/client';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export interface Notes {
   id: string;
@@ -19,7 +20,7 @@ export interface Notes {
   favoriteCount: number;
 }
 
-interface NoteKeys {
+export interface NoteKeys {
   noteFeed: {
     notes: Notes[];
     cursor: string;
@@ -54,7 +55,15 @@ const GET_NOTES = gql`
 
 function Home(): JSX.Element {
   // fetchMore
-  const { data, loading, error } = useQuery<NoteKeys, CursorVars>(GET_NOTES);
+  const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
+    GET_NOTES
+  );
+
+  const fetchMoreData = async () => {
+    await fetchMore({
+      variables: { noteFeedCursor: data?.noteFeed.cursor },
+    });
+  };
 
   return (
     <main className={`${style['main']}`}>
@@ -63,10 +72,19 @@ function Home(): JSX.Element {
         <LoadError />
       ) : loading ? (
         <LoadingCard loading />
+      ) : data ? (
+        <InfiniteScroll
+          dataLength={data.noteFeed.notes.length}
+          next={fetchMoreData}
+          hasMore={data.noteFeed.hasNextPage}
+          loader={<LoadingCard loading />}
+        >
+          {data.noteFeed.notes.map((item) => {
+            return <Post key={item.id} {...item} />;
+          })}
+        </InfiniteScroll>
       ) : (
-        data?.noteFeed.notes.map((item) => {
-          return <Post key={item.id} {...item} />;
-        })
+        <LoadError />
       )}
     </main>
   );
