@@ -2,14 +2,18 @@ import React from 'react';
 import { PageHeader } from 'antd';
 import style from './header.module.scss';
 
-const Header = (): JSX.Element => {
+interface Props {
+  title: string;
+}
+
+const Header = ({ title }: Props): JSX.Element => {
   return (
     <>
       <PageHeader
         backIcon={false}
         className={style['main-header']}
         onBack={() => null}
-        title='首页'
+        title={title}
       />
     </>
   );

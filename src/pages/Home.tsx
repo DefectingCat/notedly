@@ -2,6 +2,7 @@ import React from 'react';
 import style from './home.module.scss';
 import NewPost from '../components/newPost/NewPost';
 import Post from '../components/posts/Post';
+import Header from '../components/common/Header';
 import { useQuery, gql } from '@apollo/client';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
@@ -53,7 +54,7 @@ const GET_NOTES = gql`
   }
 `;
 
-function Home(): JSX.Element {
+const Home: React.FC = () => {
   // fetchMore
   const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
     GET_NOTES
@@ -67,6 +68,7 @@ function Home(): JSX.Element {
 
   return (
     <main className={`${style['main']}`}>
+      <Header title='首页' />
       <NewPost />
       {error ? (
         <LoadError />
@@ -88,6 +90,6 @@ function Home(): JSX.Element {
       )}
     </main>
   );
-}
+};
 
 export default Home;

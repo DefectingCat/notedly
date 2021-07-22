@@ -26,3 +26,8 @@ body,
   fill: currentColor;
   overflow: hidden;
 }
+
+// 覆盖 antd 的一些默认样式
+.ant-message-notice-content {
+  border-radius: 10px !important;
+}
