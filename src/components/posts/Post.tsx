@@ -24,7 +24,6 @@ const Post = (props: Notes): JSX.Element => {
   });
 
   /**
-   * @TODO 添加到状态管理
    * 从 Post 列表进入到详情页面 NotePage 时
    * 记录当前 scrolledTop 值到状态管理
    * 用于返回首页时滚动到指定位置
@@ -38,7 +37,7 @@ const Post = (props: Notes): JSX.Element => {
     <>
       <Card
         className={style['post-card']}
-        actions={[<ActionBar favoriteCount={favoriteCount} key={id} />]}
+        actions={[<ActionBar favoriteCount={favoriteCount} id={id} key={id} />]}
         hoverable
       >
         <div onClick={intoPost}>
