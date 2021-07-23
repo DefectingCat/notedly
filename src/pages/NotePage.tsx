@@ -10,6 +10,8 @@ import {
 import style from './notepage.module.scss';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
+import Header from '../components/common/Header';
+import { useHistory } from 'react-router';
 
 const { Meta } = Card;
 
@@ -57,15 +59,31 @@ const NotePage = (): JSX.Element => {
     variables: { id },
   });
 
+  const history = useHistory();
+
+  /**
+   * 传递给 Header 的返回回调函数
+   */
+  const onBack = () => {
+    history.go(-1);
+  };
+
   if (error) return <LoadError />;
 
-  if (loading) return <LoadingCard loading />;
+  if (loading)
+    return (
+      <>
+        <Header title='详情' backable />
+        <LoadingCard loading />
+      </>
+    );
 
   if (data) {
     const { createdAt, content, author } = data.note;
 
     return (
       <div>
+        <Header title='详情' backable onBack={onBack} />
         <Card
           className={style['post-card']}
           actions={[
@@ -88,7 +106,7 @@ const NotePage = (): JSX.Element => {
     );
   }
 
-  return <p>load failure</p>;
+  return <LoadError />;
 };
 
 export default NotePage;

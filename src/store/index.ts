@@ -20,6 +20,7 @@ const userState = atom({
   key: 'userState',
   default: {
     isLoggedIn: !!window.localStorage.getItem('token'),
+    scrolledTop: 0,
   },
 });
 
@@ -30,9 +31,11 @@ const userState = atom({
 const useStore = (): {
   state: {
     isLoggedIn: boolean;
+    scrolledTop: number;
   };
   setUserState: SetterOrUpdater<{
     isLoggedIn: boolean;
+    scrolledTop: number;
   }>;
 } => {
   const [state, setUserState] = useRecoilState(userState);

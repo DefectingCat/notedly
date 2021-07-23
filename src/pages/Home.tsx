@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './home.module.scss';
 import NewPost from '../components/newPost/NewPost';
 import Post from '../components/posts/Post';
@@ -7,6 +7,7 @@ import { useQuery, gql } from '@apollo/client';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import useStore from '../store';
 
 export interface Notes {
   id: string;
@@ -59,6 +60,17 @@ const Home = (): JSX.Element => {
   const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
     GET_NOTES
   );
+
+  const { state } = useStore();
+
+  /**
+   * 每次进入首页时
+   * 恢复到上次浏览的位置
+   * 防止过度滚动，只监听 state.scrolledTop
+   */
+  useEffect(() => {
+    window.scrollTo(0, state.scrolledTop);
+  }, [state.scrolledTop]);
 
   const fetchMoreData = async () => {
     await fetchMore({

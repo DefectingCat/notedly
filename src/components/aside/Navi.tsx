@@ -28,7 +28,7 @@ const Navi = (): JSX.Element => {
 
   useEffect(() => {
     void 0; // 什么也不做 登录后重新绘制菜单
-  }, [state]);
+  }, [state.isLoggedIn]);
 
   return (
     <div className={style['navi-wrap']}>

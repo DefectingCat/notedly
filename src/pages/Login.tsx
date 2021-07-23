@@ -29,7 +29,7 @@ const LOGIN = gql`
 `;
 
 const Login = (): JSX.Element => {
-  const { setUserState } = useStore();
+  const { state, setUserState } = useStore();
 
   const [login, { loading }] = useMutation<LoginToken, LoginVars>(LOGIN);
 
@@ -46,7 +46,7 @@ const Login = (): JSX.Element => {
       });
       if (data?.signIn) {
         remember && window.localStorage.setItem('token', data.signIn);
-        setUserState({ isLoggedIn: true });
+        setUserState({ ...state, isLoggedIn: true });
       }
       message.success('登录成功🎉');
       history.push('/');
