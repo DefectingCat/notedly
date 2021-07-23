@@ -31,3 +31,15 @@ body,
 .ant-message-notice-content {
   border-radius: 10px !important;
 }
+.ant-input {
+  border-radius: 6px !important;
+  background: var(--input-color) !important;
+}
+.ant-input-affix-wrapper {
+  padding: 4px 6px !important;
+  border-radius: 6px !important;
+  background: var(--input-color) !important;
+}
+.ant-message-notice-content {
+  border-radius: 10px !important;
+}

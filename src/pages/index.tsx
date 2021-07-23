@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 // children
 import Home from './Home';
 import Navi from '../components/aside/Navi';
-import MyNote from './MyNote';
+import Profile from './Profile';
 import NotePage from './NotePage';
 import SignUp from './SignUp';
+import Login from './Login';
 import { Row, Col } from 'antd';
 import style from './pages.module.scss';
 import { BackTop } from 'antd';
@@ -20,7 +21,8 @@ const Pages = (): JSX.Element => {
           </Col>
           <Col xs={23} md={6}>
             <Route exact path='/' component={Home} />
-            <Route path='/mynotes' component={MyNote} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/login' component={Login} />
             <Route path='/signup' component={SignUp} />
             <Route path='/note/:id' component={NotePage} />
           </Col>

@@ -57,12 +57,13 @@ const SignUp = (): JSX.Element => {
       await signUp({
         variables: { username, email, password },
       });
-      signUpForm.resetFields();
       message.success('注册成功🎉');
       history.push('/');
     } catch (e) {
       console.log(e);
       message.error('注册失败😲');
+    } finally {
+      signUpForm.resetFields();
     }
   };
 
@@ -145,6 +146,10 @@ const SignUp = (): JSX.Element => {
           >
             注册
           </Button>
+          Or{' '}
+          <a href='' onClick={() => history.push('/login')}>
+            现在登录!
+          </a>
         </Form.Item>
       </Form>
     </>

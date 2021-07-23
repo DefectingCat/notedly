@@ -9,9 +9,14 @@ const routes = [
     icon: '#icon-xuanzhongshangcheng',
   },
   {
-    to: '/mynotes',
+    to: '/profile',
     name: '我的动态',
     icon: '#icon-dongtai',
+  },
+  {
+    to: '/login',
+    name: '登录',
+    icon: '#icon-denglu',
   },
 ];
 
