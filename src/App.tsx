@@ -1,12 +1,9 @@
-import React, { useReducer } from 'react';
-import './App.css';
+import React from 'react';
 import Pages from './pages/index';
 import { ApolloClient, ApolloProvider, createHttpLink } from '@apollo/client';
 import cache from './cache';
 import { setContext } from '@apollo/client/link/context';
-import { storeContext } from './store/index';
-import reducer from './store/action';
-import store from './store/state';
+import { RecoilRoot } from 'recoil';
 
 /**
  * 这是为 HTTP 头添加 authorization 的方法
@@ -32,15 +29,13 @@ const client = new ApolloClient({
 });
 
 function App(): JSX.Element {
-  const [state, dispatch] = useReducer(reducer, store);
-
   return (
     <>
-      <ApolloProvider client={client}>
-        <storeContext.Provider value={{ state, dispatch }}>
+      <RecoilRoot>
+        <ApolloProvider client={client}>
           <Pages />
-        </storeContext.Provider>
-      </ApolloProvider>
+        </ApolloProvider>
+      </RecoilRoot>
     </>
   );
 }

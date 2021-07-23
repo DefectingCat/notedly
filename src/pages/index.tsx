@@ -7,9 +7,8 @@ import Profile from './Profile';
 import NotePage from './NotePage';
 import SignUp from './SignUp';
 import Login from './Login';
-import { Row, Col } from 'antd';
+import { Row, Col, BackTop } from 'antd';
 import style from './pages.module.scss';
-import { BackTop } from 'antd';
 
 const Pages = (): JSX.Element => {
   return (

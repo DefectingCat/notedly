@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '../components/common/Header';
 import { useMutation, gql } from '@apollo/client';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from './login.module.scss';
 import { useHistory } from 'react-router-dom';
+import useStore from '../store';
 
 interface LoginToken {
   signIn: string;
@@ -28,13 +29,9 @@ const LOGIN = gql`
 `;
 
 const Login = (): JSX.Element => {
-  const [remember, setRemember] = useState(true);
+  const { setUserState } = useStore();
 
-  const [login, { loading }] = useMutation<LoginToken, LoginVars>(LOGIN, {
-    onCompleted: (data) => {
-      remember && window.localStorage.setItem('token', data.signIn);
-    },
-  });
+  const [login, { loading }] = useMutation<LoginToken, LoginVars>(LOGIN);
 
   // 表单对象 主要用于重置表单
   const [loginForm] = Form.useForm();
@@ -44,10 +41,13 @@ const Login = (): JSX.Element => {
   const onFinish = async (values: FormVal) => {
     const { username, password, remember } = values;
     try {
-      !remember && setRemember(false);
-      await login({
+      const { data } = await login({
         variables: { username, password },
       });
+      if (data?.signIn) {
+        remember && window.localStorage.setItem('token', data.signIn);
+        setUserState({ isLoggedIn: true });
+      }
       message.success('登录成功🎉');
       history.push('/');
     } catch (e) {
