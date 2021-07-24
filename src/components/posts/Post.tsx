@@ -13,6 +13,9 @@ const Post = (props: Notes): JSX.Element => {
   const history = useHistory();
   const { state, setUserState } = useStore();
 
+  /**
+   * @TODO 保存到状态管理中
+   */
   let scrolledTop = 0;
 
   /**
