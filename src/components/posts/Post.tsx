@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Card, message } from 'antd';
 import style from './post.module.scss';
 import { Notes } from '../../pages/Home';
@@ -61,8 +61,19 @@ const Post = (props: Props): JSX.Element => {
    * 根据当前登录用户
    * 判断是当前用户是否已经点赞
    */
-  const tryFavo = favoritedBy.find((item) => item.id === state.user.id);
-  const [favoed, setFavoed] = useState(!!tryFavo);
+  const [favoed, setFavoed] = useState(false);
+
+  // useMemo(
+  //   () => setFavoed(!!favoritedBy.find((item) => item.id === state.user.id)),
+  //   [favoritedBy, state.user.id]
+  // );
+  /**
+   * @TODO Keep Alive
+   * 当滚动过远时，Post 组件会被渲染很多次
+   */
+  useEffect(() => {
+    setFavoed(!!favoritedBy.find((item) => item.id === state.user.id));
+  }, [favoritedBy, state.user.id]);
 
   /**
    * 该方法用于传递给子组件更新点赞状态

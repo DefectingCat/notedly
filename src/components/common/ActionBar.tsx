@@ -1,7 +1,5 @@
 import React from 'react';
 import style from './actionBar.module.scss';
-import { useMutation, gql } from '@apollo/client';
-import { message } from 'antd';
 
 interface Props {
   favoriteCount: number;
@@ -11,7 +9,7 @@ interface Props {
 }
 
 const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
-  console.log('child: ', favoed);
+  // console.log('child: ', favoed);
 
   return (
     <>
