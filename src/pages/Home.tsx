@@ -20,6 +20,10 @@ export interface Notes {
   createdAt: string;
   content: string;
   favoriteCount: number;
+  favoritedBy: {
+    id: string;
+    username: string;
+  }[];
 }
 
 export interface NoteKeys {
@@ -48,6 +52,10 @@ const GET_NOTES = gql`
         createdAt
         content
         favoriteCount
+        favoritedBy {
+          id
+          username
+        }
       }
       cursor
       hasNextPage

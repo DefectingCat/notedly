@@ -145,11 +145,10 @@ const SignUp = (): JSX.Element => {
             loading={loading}
           >
             注册
-          </Button>
-          Or{' '}
-          <a href='' onClick={() => history.push('/login')}>
+          </Button>{' '}
+          <Button type='link' onClick={() => history.push('/login')}>
             现在登录!
-          </a>
+          </Button>
         </Form.Item>
       </Form>
     </>

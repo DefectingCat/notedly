@@ -6,58 +6,27 @@ import { message } from 'antd';
 interface Props {
   favoriteCount: number;
   id: string;
+  favoed: boolean;
+  toFavo: () => Promise<void>;
 }
 
-interface FavoVars {
-  toggleFavoriteId: string;
-}
-
-interface FavoRes {
-  toggleFavorite: ToggleFavorite;
-}
-
-interface ToggleFavorite {
-  id: string;
-  favoriteCount: number;
-}
-
-const FAVO_QL = gql`
-  mutation ToggleFavoriteMutation($toggleFavoriteId: ID!) {
-    toggleFavorite(id: $toggleFavoriteId) {
-      id
-      favoriteCount
-    }
-  }
-`;
-
-const ActionBar = ({ favoriteCount, id }: Props): JSX.Element => {
-  const [favo] = useMutation<FavoRes, FavoVars>(FAVO_QL);
-
-  /**
-   * 点赞请求
-   * @TODO 根据点赞状态改变按钮填充
-   */
-  const toFavo = async () => {
-    try {
-      const { data } = await favo({
-        variables: { toggleFavoriteId: id },
-      });
-      if (data?.toggleFavorite)
-        favoriteCount = data.toggleFavorite.favoriteCount;
-    } catch (e) {
-      console.log(e);
-      message.error('点赞失败😲');
-    }
-  };
+const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
+  console.log('child: ', favoed);
 
   return (
     <>
       <div className={style.warpper}>
         {/* 这个是点赞按钮💖 */}
         <div className={`${style.action}`} onClick={toFavo}>
-          <svg className='icon' aria-hidden='true'>
-            <use xlinkHref='#icon-aixin2'></use>
-          </svg>
+          {favoed ? (
+            <svg className='icon' aria-hidden='true'>
+              <use xlinkHref='#icon-xinaixin-fuben'></use>
+            </svg>
+          ) : (
+            <svg className='icon' aria-hidden='true'>
+              <use xlinkHref='#icon-aixin2'></use>
+            </svg>
+          )}
           <span>{favoriteCount}</span>
         </div>
 

@@ -1,30 +1,50 @@
-import React, { useEffect } from 'react';
-import { Avatar, Card } from 'antd';
+import React, { useState } from 'react';
+import { Avatar, Card, message } from 'antd';
 import style from './post.module.scss';
 import { Notes } from '../../pages/Home';
 import ActionBar from '../common/ActionBar';
 import useStore from '../../store';
 import { useHistory } from 'react-router';
+import { useMutation, gql } from '@apollo/client';
 
 const { Meta } = Card;
 
-const Post = (props: Notes): JSX.Element => {
-  const { author, content, createdAt, favoriteCount, id } = props;
+interface Props extends Notes {}
+
+interface FavoVars {
+  toggleFavoriteId: string;
+}
+
+interface FavoRes {
+  toggleFavorite: ToggleFavorite;
+}
+
+interface ToggleFavorite {
+  id: string;
+  favoriteCount: number;
+}
+
+const FAVO_QL = gql`
+  mutation ToggleFavoriteMutation($toggleFavoriteId: ID!) {
+    toggleFavorite(id: $toggleFavoriteId) {
+      id
+      favoriteCount
+    }
+  }
+`;
+
+const Post = (props: Props): JSX.Element => {
+  const { author, content, createdAt, id, favoritedBy } = props;
+  let { favoriteCount } = props;
   const history = useHistory();
   const { state, setUserState } = useStore();
 
   /**
-   * @TODO 保存到状态管理中
+   * 点赞
    */
-  let scrolledTop = 0;
+  const [favo] = useMutation<FavoRes, FavoVars>(FAVO_QL);
 
-  /**
-   * 每次 Post 被重绘时
-   * 都记录下当前的滚动位置
-   */
-  useEffect(() => {
-    scrolledTop = document.documentElement.scrollTop || document.body.scrollTop;
-  });
+  let scrolledTop = 0;
 
   /**
    * 从 Post 列表进入到详情页面 NotePage 时
@@ -32,15 +52,66 @@ const Post = (props: Notes): JSX.Element => {
    * 用于返回首页时滚动到指定位置
    */
   const intoPost = () => {
+    scrolledTop = document.documentElement.scrollTop || document.body.scrollTop;
     setUserState({ ...state, scrolledTop });
     history.push(`/note/${id}`);
+  };
+
+  /**
+   * 根据当前登录用户
+   * 判断是当前用户是否已经点赞
+   */
+  const tryFavo = favoritedBy.find((item) => item.id === state.user.id);
+  const [favoed, setFavoed] = useState(!!tryFavo);
+
+  /**
+   * 该方法用于传递给子组件更新点赞状态
+   * @CAUTION 这里是直接修改父组件所传递的
+   * favoriteCount 来达到修改点赞数量
+   * 由于数量会被直接保存到服务器
+   * 所以这里没有单独管理状态
+   * 选择直接修改 props
+   */
+  const toFavo = async () => {
+    try {
+      const { data } = await favo({
+        variables: { toggleFavoriteId: id },
+      });
+      if (data?.toggleFavorite) {
+        favoriteCount = data.toggleFavorite.favoriteCount;
+        setFavoed(!favoed);
+      }
+    } catch (e) {
+      console.log(e);
+      message.error('点赞失败😲');
+    }
   };
 
   return (
     <>
       <Card
         className={style['post-card']}
-        actions={[<ActionBar favoriteCount={favoriteCount} id={id} key={id} />]}
+        actions={
+          favoed
+            ? [
+                <ActionBar
+                  favoriteCount={favoriteCount}
+                  id={id}
+                  key={id}
+                  favoed={favoed}
+                  toFavo={toFavo}
+                />,
+              ]
+            : [
+                <ActionBar
+                  favoriteCount={favoriteCount}
+                  id={id}
+                  key={id}
+                  favoed={favoed}
+                  toFavo={toFavo}
+                />,
+              ]
+        }
         hoverable
       >
         <div onClick={intoPost}>

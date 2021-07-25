@@ -102,11 +102,10 @@ const Login = (): JSX.Element => {
             loading={loading}
           >
             登录
-          </Button>
-          Or{' '}
-          <a href='' onClick={() => history.push('/signup')}>
+          </Button>{' '}
+          <Button type='link' onClick={() => history.push('/signup')}>
             现在加入!
-          </a>
+          </Button>
         </Form.Item>
       </Form>
     </>
