@@ -9,8 +9,6 @@ import { useMutation, gql } from '@apollo/client';
 
 const { Meta } = Card;
 
-interface Props extends Notes {}
-
 interface FavoVars {
   toggleFavoriteId: string;
 }
@@ -33,9 +31,10 @@ const FAVO_QL = gql`
   }
 `;
 
-const Post = (props: Props): JSX.Element => {
-  const { author, content, createdAt, id, favoritedBy } = props;
-  let { favoriteCount } = props;
+const Post = (props: Notes): JSX.Element => {
+  const { id, createdAt, content, favoritedBy } = props;
+  let { favoriteCount, author } = props;
+
   const history = useHistory();
   const { state, setUserState } = useStore();
 
@@ -67,10 +66,6 @@ const Post = (props: Props): JSX.Element => {
   //   () => setFavoed(!!favoritedBy.find((item) => item.id === state.user.id)),
   //   [favoritedBy, state.user.id]
   // );
-  /**
-   * @TODO Keep Alive
-   * 当滚动过远时，Post 组件会被渲染很多次
-   */
   useEffect(() => {
     setFavoed(!!favoritedBy.find((item) => item.id === state.user.id));
   }, [favoritedBy, state.user.id]);

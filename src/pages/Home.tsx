@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import style from './home.module.scss';
 import NewPost from '../components/newPost/NewPost';
-import Post from '../components/posts/Post';
 import Header from '../components/common/Header';
 import { useQuery, gql } from '@apollo/client';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useStore from '../store';
+import MemoPosts from '../components/common/Postlist';
 
 export interface Notes {
   id: string;
@@ -34,7 +34,7 @@ export interface NoteKeys {
   };
 }
 
-interface CursorVars {
+export interface CursorVars {
   noteFeedCursor: string;
 }
 
@@ -62,20 +62,6 @@ const GET_NOTES = gql`
     }
   }
 `;
-
-/**
- * Post 列表会保留记忆滚动的位置
- * 会导致切换时大面积的重复渲染
- * @param props
- * @returns
- */
-const Posts = (props: { data: NoteKeys }) => {
-  const { data } = props;
-  const map = (item: Notes) => <Post key={item.id} {...item} />;
-  return <>{data.noteFeed.notes.map(map)}</>;
-};
-
-const MemoPosts = React.memo(Posts);
 
 const Home = (): JSX.Element => {
   // fetchMore
