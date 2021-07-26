@@ -63,6 +63,20 @@ const GET_NOTES = gql`
   }
 `;
 
+/**
+ * Post 列表会保留记忆滚动的位置
+ * 会导致切换时大面积的重复渲染
+ * @param props
+ * @returns
+ */
+const Posts = (props: { data: NoteKeys }) => {
+  const { data } = props;
+  const map = (item: Notes) => <Post key={item.id} {...item} />;
+  return <>{data.noteFeed.notes.map(map)}</>;
+};
+
+const MemoPosts = React.memo(Posts);
+
 const Home = (): JSX.Element => {
   // fetchMore
   const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
@@ -101,9 +115,10 @@ const Home = (): JSX.Element => {
           hasMore={data.noteFeed.hasNextPage}
           loader={<LoadingCard loading />}
         >
-          {data.noteFeed.notes.map((item) => {
+          {/* {data.noteFeed.notes.map((item) => {
             return <Post key={item.id} {...item} />;
-          })}
+          })} */}
+          <MemoPosts data={data} />
         </InfiniteScroll>
       ) : (
         <LoadError />
