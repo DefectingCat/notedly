@@ -80,16 +80,33 @@ const Home = (): JSX.Element => {
     window.scrollTo(0, state.scrolledTop);
   }, [state.scrolledTop]);
 
+  /**
+   * fetchMoreData
+   * 该函数用于滚动到底部加载新的数据
+   * 用 cache.ts 判断并合并新的数据
+   */
   const fetchMoreData = async () => {
-    await fetchMore({
+    await fetchMore?.({
       variables: { noteFeedCursor: data?.noteFeed.cursor },
+    });
+  };
+
+  /**
+   * 该函数传递给子组件 NewPost.tsx
+   * 用户发布了新的 post 后，获取新的数据
+   * 且不与旧的数据合并
+   * @CAUTION 这会覆盖已经获取的数据！
+   */
+  const fetchNewData = async () => {
+    await fetchMore?.({
+      variables: {},
     });
   };
 
   return (
     <main className={`${style['main']}`}>
       <Header title='首页' />
-      <NewPost />
+      <NewPost fetchQuery={fetchNewData} />
       {error ? (
         <LoadError />
       ) : loading ? (
