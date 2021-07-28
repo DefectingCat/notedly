@@ -23,7 +23,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: 'https://api.defectink.com/notedly/graphql',
+  uri: 'http://localhost:3000/graphql',
+  // uri: 'https://api.defectink.com/notedly/graphql',
 });
 
 const client = new ApolloClient({
