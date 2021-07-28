@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { Input, Button, message } from 'antd';
 import style from './newpost.module.scss';
 import { useMutation, gql } from '@apollo/client';

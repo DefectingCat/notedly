@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, Card, message } from 'antd';
 import style from './post.module.scss';
 import { Notes } from '../../pages/Home';
@@ -62,10 +62,6 @@ const Post = (props: Notes): JSX.Element => {
    */
   const [favoed, setFavoed] = useState(false);
 
-  // useMemo(
-  //   () => setFavoed(!!favoritedBy.find((item) => item.id === state.user.id)),
-  //   [favoritedBy, state.user.id]
-  // );
   useEffect(() => {
     setFavoed(!!favoritedBy.find((item) => item.id === state.user.id));
   }, [favoritedBy, state.user.id]);

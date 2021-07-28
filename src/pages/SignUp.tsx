@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import Header from '../components/common/Header';
 import style from './signup.module.scss';

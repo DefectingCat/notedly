@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../components/common/Header';
 import { useMutation, gql } from '@apollo/client';
 import { Form, Input, Button, Checkbox, message } from 'antd';

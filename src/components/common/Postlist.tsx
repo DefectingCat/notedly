@@ -1,5 +1,4 @@
 import type { NoteKeys, Notes } from '../../pages/Home';
-import React from 'react';
 import Post from '../posts/Post';
 import { MyNotes } from '../../pages/Profile';
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Header from '../components/common/Header';
 import { useQuery, gql } from '@apollo/client';
 import useStore from '../store';

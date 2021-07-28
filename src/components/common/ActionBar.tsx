@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './actionBar.module.scss';
 
 interface Props {
@@ -9,8 +8,6 @@ interface Props {
 }
 
 const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
-  // console.log('child: ', favoed);
-
   return (
     <>
       <div className={style.warpper}>

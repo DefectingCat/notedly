@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import style from './navi.module.scss';
 import useStore from '../../store';

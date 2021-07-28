@@ -1,4 +1,3 @@
-import React from 'react';
 import { Empty } from 'antd';
 import errorImg from '../../assets/img/error.svg';
 

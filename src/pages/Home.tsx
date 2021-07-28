@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import style from './home.module.scss';
 import NewPost from '../components/newPost/NewPost';
 import Header from '../components/common/Header';
@@ -118,9 +118,6 @@ const Home = (): JSX.Element => {
           hasMore={data.noteFeed.hasNextPage}
           loader={<LoadingCard loading />}
         >
-          {/* {data.noteFeed.notes.map((item) => {
-            return <Post key={item.id} {...item} />;
-          })} */}
           <MemoPosts data={data} />
         </InfiniteScroll>
       ) : (
