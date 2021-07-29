@@ -6,6 +6,7 @@ import ActionBar from '../common/ActionBar';
 import useStore from '../../store';
 import { useHistory } from 'react-router';
 import { useMutation, gql } from '@apollo/client';
+import cloneDeep from 'lodash/cloneDeep';
 
 const { Meta } = Card;
 
@@ -20,6 +21,12 @@ interface FavoRes {
 interface ToggleFavorite {
   id: string;
   favoriteCount: number;
+  favoritedBy: FavoritedBy[];
+}
+
+interface FavoritedBy {
+  id: string;
+  username: string;
 }
 
 const FAVO_QL = gql`
@@ -27,13 +34,17 @@ const FAVO_QL = gql`
     toggleFavorite(id: $toggleFavoriteId) {
       id
       favoriteCount
+      favoritedBy {
+        id
+        username
+      }
     }
   }
 `;
 
 const Post = (props: Notes): JSX.Element => {
-  const { id, createdAt, content, favoritedBy } = props;
-  let { favoriteCount, author } = props;
+  const { id, createdAt, content, author } = props;
+  let { favoritedBy, favoriteCount } = props;
 
   const history = useHistory();
   const { state, setUserState } = useStore();
@@ -53,7 +64,9 @@ const Post = (props: Notes): JSX.Element => {
   const intoPost = () => {
     scrolledTop = document.documentElement.scrollTop || document.body.scrollTop;
     setUserState({ ...state, scrolledTop });
-    history.push(`/note/${id}`);
+    history.push({
+      pathname: `/note/${id}`,
+    });
   };
 
   /**
@@ -68,20 +81,34 @@ const Post = (props: Notes): JSX.Element => {
 
   /**
    * 该方法用于传递给子组件更新点赞状态
-   * @CAUTION 这里是直接修改父组件所传递的
-   * favoriteCount 来达到修改点赞数量
-   * 由于数量会被直接保存到服务器
-   * 所以这里没有单独管理状态
-   * 选择直接修改 props
    */
   const toFavo = async () => {
     try {
       const { data } = await favo({
         variables: { toggleFavoriteId: id },
       });
-      if (data?.toggleFavorite) {
-        favoriteCount = data.toggleFavorite.favoriteCount;
-        setFavoed(!favoed);
+      let { notes, myNotes } = state;
+      if (notes || myNotes) {
+        const deepNotes = cloneDeep(notes);
+        const deepMyNotes = cloneDeep(myNotes);
+        const note = deepNotes?.find((item) => item.id === id);
+        const myNote = deepMyNotes?.find((item) => item.id === id);
+
+        /**
+         * 对当前状态中的点赞信息进行修改
+         * 提交状态后，父组件会根据 props 变化来重新渲染当前组件
+         */
+        if (data?.toggleFavorite) {
+          if (note) {
+            note.favoriteCount = data.toggleFavorite.favoriteCount;
+            note.favoritedBy = data.toggleFavorite.favoritedBy;
+          }
+          if (myNote) {
+            myNote.favoriteCount = data.toggleFavorite.favoriteCount;
+            myNote.favoritedBy = data.toggleFavorite.favoritedBy;
+          }
+          setUserState({ ...state, notes: deepNotes, myNotes: deepMyNotes });
+        }
       }
     } catch (e) {
       console.log(e);

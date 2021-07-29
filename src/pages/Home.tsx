@@ -7,7 +7,7 @@ import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useStore from '../store';
-import MemoPosts from '../components/common/Postlist';
+import Post from '../components/posts/Post';
 
 export interface Notes {
   id: string;
@@ -20,10 +20,11 @@ export interface Notes {
   createdAt: string;
   content: string;
   favoriteCount: number;
-  favoritedBy: {
-    id: string;
-    username: string;
-  }[];
+  favoritedBy: FavoritedBy[];
+}
+export interface FavoritedBy {
+  id: string;
+  username: string;
 }
 
 export interface NoteKeys {
@@ -38,7 +39,7 @@ export interface CursorVars {
   noteFeedCursor: string;
 }
 
-const GET_NOTES = gql`
+export const GET_NOTES = gql`
   query NoteFeed($noteFeedCursor: String) {
     noteFeed(cursor: $noteFeedCursor) {
       notes {
@@ -64,12 +65,11 @@ const GET_NOTES = gql`
 `;
 
 const Home = (): JSX.Element => {
-  // fetchMore
   const { data, loading, error, fetchMore } = useQuery<NoteKeys, CursorVars>(
     GET_NOTES
   );
 
-  const { state } = useStore();
+  const { state, setUserState } = useStore();
 
   /**
    * 每次进入首页时
@@ -77,8 +77,24 @@ const Home = (): JSX.Element => {
    * 防止过度滚动，只监听 state.scrolledTop
    */
   useEffect(() => {
-    window.scrollTo(0, state.scrolledTop);
-  }, [state.scrolledTop]);
+    !loading && window.scrollTo(0, state.scrolledTop);
+  }, [loading, state.scrolledTop]);
+
+  let { notes, homeCursor, homeNext } = state;
+  useEffect(() => {
+    if (!notes) {
+      if (data?.noteFeed) {
+        const { notes: apolloNotes } = data.noteFeed;
+        setUserState({
+          ...state,
+          notes: apolloNotes,
+          homeCursor: data.noteFeed.cursor,
+          homeNext: data.noteFeed.hasNextPage,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, setUserState]);
 
   /**
    * fetchMoreData
@@ -86,39 +102,37 @@ const Home = (): JSX.Element => {
    * 用 cache.ts 判断并合并新的数据
    */
   const fetchMoreData = async () => {
-    await fetchMore?.({
-      variables: { noteFeedCursor: data?.noteFeed.cursor },
+    const { data: newData } = await fetchMore({
+      variables: { noteFeedCursor: homeCursor },
     });
-  };
-
-  /**
-   * 该函数传递给子组件 NewPost.tsx
-   * 用户发布了新的 post 后，获取新的数据
-   * 且不与旧的数据合并
-   * @CAUTION 这会覆盖已经获取的数据！
-   */
-  const fetchNewData = async () => {
-    await fetchMore?.({
-      variables: {},
+    const { noteFeed } = newData as NoteKeys;
+    notes && (notes = [...notes, ...noteFeed.notes]);
+    setUserState({
+      ...state,
+      notes,
+      homeCursor: noteFeed.cursor,
+      homeNext: noteFeed.hasNextPage,
     });
   };
 
   return (
     <main className={`${style['main']}`}>
       <Header title='首页' />
-      <NewPost fetchQuery={fetchNewData} />
+      <NewPost />
       {error ? (
         <LoadError />
       ) : loading ? (
         <LoadingCard loading />
-      ) : data ? (
+      ) : notes ? (
         <InfiniteScroll
-          dataLength={data.noteFeed.notes.length}
+          dataLength={notes.length}
           next={fetchMoreData}
-          hasMore={data.noteFeed.hasNextPage}
+          hasMore={homeNext}
           loader={<LoadingCard loading />}
         >
-          <MemoPosts data={data} />
+          {notes.map((item) => (
+            <Post key={item.id} {...item} />
+          ))}
         </InfiniteScroll>
       ) : (
         <LoadError />

@@ -15,6 +15,32 @@
 //   dispatch: React.Dispatch<Action>;
 // } => useContext(storeContext);
 import { atom, useRecoilState, SetterOrUpdater } from 'recoil';
+import { Notes } from '../pages/Home';
+
+interface State {
+  isLoggedIn: boolean;
+  scrolledTop: number;
+  user: {
+    id: string;
+    username: string;
+  };
+
+  /**
+   * 该数据为缓存首页的 post list
+   * 为了方便更新，将 homeCursor homeNext 单独存储
+   */
+  notes?: Notes[];
+  homeCursor: string;
+  homeNext: boolean;
+
+  /**
+   * 该数据为【我的动态】的 post lost
+   * 其数据格式与首页相同
+   */
+  myNotes?: Notes[];
+  myCursor: string;
+  myNext: boolean;
+}
 
 const userState = atom({
   key: 'userState',
@@ -25,6 +51,10 @@ const userState = atom({
       id: '',
       username: '',
     },
+    homeCursor: '',
+    homeNext: false,
+    myCursor: '',
+    myNext: false,
   },
 });
 
@@ -33,22 +63,8 @@ const userState = atom({
  * @returns
  */
 const useStore = (): {
-  state: {
-    isLoggedIn: boolean;
-    scrolledTop: number;
-    user: {
-      id: string;
-      username: string;
-    };
-  };
-  setUserState: SetterOrUpdater<{
-    isLoggedIn: boolean;
-    scrolledTop: number;
-    user: {
-      id: string;
-      username: string;
-    };
-  }>;
+  state: State;
+  setUserState: SetterOrUpdater<State>;
 } => {
   const [state, setUserState] = useRecoilState(userState);
 

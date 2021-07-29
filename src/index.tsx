@@ -31,6 +31,16 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
   connectToDevTools: process.env.NODE_ENV !== 'production',
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
 });
 
 ReactDOM.render(

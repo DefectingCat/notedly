@@ -5,26 +5,31 @@ import { useMutation, gql } from '@apollo/client';
 import useStore from '../../store';
 import { useHistory } from 'react-router';
 import { TextAreaRef } from 'antd/lib/input/TextArea';
+import cloneDeep from 'lodash/cloneDeep';
 
 const { TextArea } = Input;
 
-interface Props {
-  fetchQuery: () => Promise<void>;
-}
-
-export interface PostValue {
+export interface PostCont {
   newNote: NewNote;
 }
 
 export interface NewNote {
   id: string;
-  content: string;
   author: Author;
+  createdAt: string;
+  content: string;
+  favoriteCount: number;
+  favoritedBy: FavoritedBy[];
 }
-
+export interface FavoritedBy {
+  id: string;
+  username: string;
+}
 export interface Author {
   id: string;
   username: string;
+  email: string;
+  avatar: string;
 }
 
 interface PostVars {
@@ -35,8 +40,16 @@ const NEW_POST = gql`
   mutation Mutation($newNoteContent: String!) {
     newNote(content: $newNoteContent) {
       id
-      content
       author {
+        id
+        username
+        email
+        avatar
+      }
+      createdAt
+      content
+      favoriteCount
+      favoritedBy {
         id
         username
       }
@@ -44,9 +57,9 @@ const NEW_POST = gql`
   }
 `;
 
-const NewPost = (props: Props): JSX.Element => {
+const NewPost = (): JSX.Element => {
   const [draft, setDraft] = useState('');
-  const { state } = useStore();
+  const { state, setUserState } = useStore();
   const history = useHistory();
   const text = useRef<TextAreaRef>(null);
 
@@ -55,7 +68,7 @@ const NewPost = (props: Props): JSX.Element => {
     setDraft(target.value);
   };
 
-  const [emitPost] = useMutation<PostValue, PostVars>(NEW_POST);
+  const [emitPost] = useMutation<PostCont, PostVars>(NEW_POST);
 
   const newPost = async () => {
     if (!state.isLoggedIn) {
@@ -69,11 +82,25 @@ const NewPost = (props: Props): JSX.Element => {
       return;
     }
     try {
+      let { notes, myNotes } = state;
       const { data } = await emitPost({
         variables: { newNoteContent: draft },
       });
       data?.newNote.id && setDraft('');
-      props.fetchQuery(); // 重新获取数据
+
+      /**
+       * 再成功发送后
+       * 同时更新 Home 与 Profile 缓存的状态
+       * 以达到更新首页数据的目的
+       * 而不用重新发发送请求
+       */
+      if (notes || myNotes) {
+        const deepNotes = cloneDeep(notes);
+        const deepMyNotes = cloneDeep(myNotes);
+        data && deepNotes?.unshift(data?.newNote);
+        data && deepMyNotes?.unshift(data?.newNote);
+        setUserState({ ...state, notes: deepNotes, myNotes: deepMyNotes });
+      }
     } catch (e) {
       console.log(e);
       message.error('发送失败😲');

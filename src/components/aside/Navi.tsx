@@ -2,23 +2,24 @@ import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import style from './navi.module.scss';
 import useStore from '../../store';
+import IconFont from '../common/icon/NotedlyIcons';
 
 const routes = [
   {
     to: '/',
     name: '首页',
-    icon: '#icon-xuanzhongshangcheng',
+    icon: 'icon-xuanzhongshangcheng',
   },
   {
     to: '/profile',
     name: '我的动态',
-    icon: '#icon-dongtai',
+    icon: 'icon-dongtai',
     private: true,
   },
   {
     to: '/login',
     name: '登录',
-    icon: '#icon-denglu',
+    icon: 'icon-denglu',
     logined: true,
   },
 ];
@@ -54,9 +55,7 @@ const Navi = (): JSX.Element => {
                   key={item.to}
                 >
                   <div className={style['navi-btn']}>
-                    <svg className='icon' aria-hidden='true'>
-                      <use xlinkHref={item.icon}></use>
-                    </svg>
+                    <IconFont type={item.icon} />
                     <span>{item.name}</span>
                   </div>
                 </NavLink>
@@ -71,9 +70,7 @@ const Navi = (): JSX.Element => {
                   key={item.to}
                 >
                   <div className={style['navi-btn']}>
-                    <svg className='icon' aria-hidden='true'>
-                      <use xlinkHref={item.icon}></use>
-                    </svg>
+                    <IconFont type={item.icon} />
                     <span>{item.name}</span>
                   </div>
                 </NavLink>

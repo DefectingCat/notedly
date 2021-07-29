@@ -1,4 +1,5 @@
 import style from './actionBar.module.scss';
+import IconFont from './icon/NotedlyIcons';
 
 interface Props {
   favoriteCount: number;
@@ -14,22 +15,16 @@ const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
         {/* 这个是点赞按钮💖 */}
         <div className={`${style.action}`} onClick={toFavo}>
           {favoed ? (
-            <svg className='icon' aria-hidden='true'>
-              <use xlinkHref='#icon-xinaixin-fuben'></use>
-            </svg>
+            <IconFont type='icon-xinaixin-fuben' />
           ) : (
-            <svg className='icon' aria-hidden='true'>
-              <use xlinkHref='#icon-aixin2'></use>
-            </svg>
+            <IconFont type='icon-aixin2' />
           )}
           <span>{favoriteCount}</span>
         </div>
 
         {/* 这个是评论按钮💬 */}
         <div className={`${style.action}`}>
-          <svg className='icon' aria-hidden='true'>
-            <use xlinkHref='#icon-comment'></use>
-          </svg>
+          <IconFont type='icon-comment' />
           <span>0</span>
         </div>
       </div>

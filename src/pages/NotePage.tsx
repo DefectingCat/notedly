@@ -1,16 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Avatar, Card } from 'antd';
-import {
-  HeartOutlined,
-  EllipsisOutlined,
-  MessageOutlined,
-} from '@ant-design/icons';
+import { EllipsisOutlined } from '@ant-design/icons';
 import style from './notepage.module.scss';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
 import Header from '../components/common/Header';
 import { useHistory } from 'react-router';
+import IconFont from '../components/common/icon/NotedlyIcons';
 
 const { Meta } = Card;
 
@@ -54,6 +51,7 @@ const GET_NOTE = gql`
 
 const NotePage = (): JSX.Element => {
   const { id } = useParams<Params>();
+
   const { data, loading, error } = useQuery<Note, Params>(GET_NOTE, {
     variables: { id },
   });
@@ -86,8 +84,7 @@ const NotePage = (): JSX.Element => {
         <Card
           className={style['post-card']}
           actions={[
-            <HeartOutlined key='heart' />,
-            <MessageOutlined key='msg' />,
+            <IconFont type='icon-comment' />,
             <EllipsisOutlined key='ellipsis' />,
           ]}
         >
