@@ -43,7 +43,7 @@ const FAVO_QL = gql`
 `;
 
 const Post = (props: Notes): JSX.Element => {
-  const { id, createdAt, content, author } = props;
+  const { id, createdAt, content, author, commentNum } = props;
   let { favoritedBy, favoriteCount } = props;
 
   const history = useHistory();
@@ -129,6 +129,7 @@ const Post = (props: Notes): JSX.Element => {
                   key={id}
                   favoed={favoed}
                   toFavo={toFavo}
+                  commentNum={commentNum}
                 />,
               ]
             : [
@@ -138,6 +139,7 @@ const Post = (props: Notes): JSX.Element => {
                   key={id}
                   favoed={favoed}
                   toFavo={toFavo}
+                  commentNum={commentNum}
                 />,
               ]
         }

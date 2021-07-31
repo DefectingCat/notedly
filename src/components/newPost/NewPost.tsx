@@ -20,6 +20,7 @@ export interface NewNote {
   content: string;
   favoriteCount: number;
   favoritedBy: FavoritedBy[];
+  commentNum: number;
 }
 export interface FavoritedBy {
   id: string;
@@ -58,9 +59,11 @@ const NEW_POST = gql`
 `;
 
 const NewPost = (): JSX.Element => {
+  // textarea 输入内容
   const [draft, setDraft] = useState('');
   const { state, setUserState } = useStore();
   const history = useHistory();
+  // textarea ref
   const text = useRef<TextAreaRef>(null);
 
   const handInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -89,7 +92,7 @@ const NewPost = (): JSX.Element => {
       data?.newNote.id && setDraft('');
 
       /**
-       * 再成功发送后
+       * 在成功发送后
        * 同时更新 Home 与 Profile 缓存的状态
        * 以达到更新首页数据的目的
        * 而不用重新发发送请求

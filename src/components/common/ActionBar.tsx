@@ -5,10 +5,16 @@ interface Props {
   favoriteCount: number;
   id: string;
   favoed: boolean;
+  commentNum: number;
   toFavo: () => Promise<void>;
 }
 
-const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
+const ActionBar = ({
+  favoriteCount,
+  favoed,
+  commentNum,
+  toFavo,
+}: Props): JSX.Element => {
   return (
     <>
       <div className={style.warpper}>
@@ -25,7 +31,7 @@ const ActionBar = ({ favoriteCount, favoed, toFavo }: Props): JSX.Element => {
         {/* 这个是评论按钮💬 */}
         <div className={`${style.action}`}>
           <IconFont type='icon-comment' />
-          <span>0</span>
+          <span>{commentNum}</span>
         </div>
       </div>
     </>

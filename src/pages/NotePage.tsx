@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Spin } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import style from './notepage.module.scss';
 import LoadingCard from '../components/common/LoadingCard';
@@ -8,8 +8,15 @@ import LoadError from '../components/common/LoadError';
 import Header from '../components/common/Header';
 import { useHistory } from 'react-router';
 import IconFont from '../components/common/icon/NotedlyIcons';
+import { lazy, Suspense, useState } from 'react';
 
 const { Meta } = Card;
+
+/**
+ * Comment 组件需要手动打开
+ * 对其进行异步懒加载
+ */
+const CommentList = lazy(() => import('../components/comment/CommentList'));
 
 interface Params {
   id: string;
@@ -50,7 +57,11 @@ const GET_NOTE = gql`
 `;
 
 const NotePage = (): JSX.Element => {
+  // 当前 post id ，由父组件传递
   const { id } = useParams<Params>();
+
+  // 是否显示评论框
+  const [showComment, setShowComment] = useState(false);
 
   const { data, loading, error } = useQuery<Note, Params>(GET_NOTE, {
     variables: { id },
@@ -63,6 +74,10 @@ const NotePage = (): JSX.Element => {
    */
   const onBack = () => {
     history.go(-1);
+  };
+
+  const openComment = () => {
+    setShowComment(!showComment);
   };
 
   if (error) return <LoadError />;
@@ -79,12 +94,12 @@ const NotePage = (): JSX.Element => {
     const { createdAt, content, author } = data.note;
 
     return (
-      <div>
+      <>
         <Header title='详情' backable onBack={onBack} />
         <Card
           className={style['post-card']}
           actions={[
-            <IconFont type='icon-comment' />,
+            <IconFont type='icon-comment' onClick={openComment} />,
             <EllipsisOutlined key='ellipsis' />,
           ]}
         >
@@ -98,7 +113,17 @@ const NotePage = (): JSX.Element => {
           />
           <div className={style['post-card-body']}>{content}</div>
         </Card>
-      </div>
+
+        <Suspense
+          fallback={
+            <div className={style.loading}>
+              <Spin />
+            </div>
+          }
+        >
+          {showComment ? <CommentList id={id} /> : void 0}
+        </Suspense>
+      </>
     );
   }
 

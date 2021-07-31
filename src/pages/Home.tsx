@@ -11,20 +11,23 @@ import Post from '../components/posts/Post';
 
 export interface Notes {
   id: string;
-  author: {
-    username: string;
-    id: string;
-    email: string;
-    avatar: string;
-  };
+  author: Author;
   createdAt: string;
   content: string;
   favoriteCount: number;
   favoritedBy: FavoritedBy[];
+  commentNum: number;
 }
 export interface FavoritedBy {
   id: string;
   username: string;
+}
+
+export interface Author {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
 }
 
 export interface NoteKeys {
@@ -57,6 +60,7 @@ export const GET_NOTES = gql`
           id
           username
         }
+        commentNum
       }
       cursor
       hasNextPage
