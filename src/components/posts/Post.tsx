@@ -11,6 +11,7 @@ import cloneDeep from 'lodash/cloneDeep';
 const { Meta } = Card;
 
 interface FavoVars {
+  // 被点赞的 id
   toggleFavoriteId: string;
 }
 
@@ -74,7 +75,6 @@ const Post = (props: Notes): JSX.Element => {
    * 判断是当前用户是否已经点赞
    */
   const [favoed, setFavoed] = useState(false);
-
   useEffect(() => {
     setFavoed(!!favoritedBy.find((item) => item.id === state.user.id));
   }, [favoritedBy, state.user.id]);
@@ -148,7 +148,7 @@ const Post = (props: Notes): JSX.Element => {
         <div onClick={intoPost}>
           <Meta
             avatar={<Avatar src={author.avatar} />}
-            title={`@${author.username}`}
+            title={`${author.username}`}
             description={`${createdAt.substr(0, 10)} ${createdAt.substr(
               11,
               8

@@ -71,7 +71,7 @@ const NewPost = (): JSX.Element => {
     setDraft(target.value);
   };
 
-  const [emitPost] = useMutation<PostCont, PostVars>(NEW_POST);
+  const [emitPost, { loading }] = useMutation<PostCont, PostVars>(NEW_POST);
 
   const newPost = async () => {
     if (!state.isLoggedIn) {
@@ -114,7 +114,7 @@ const NewPost = (): JSX.Element => {
     <>
       <TextArea
         placeholder={`What's on your mind?`}
-        autoSize={{ minRows: 2, maxRows: 6 }}
+        autoSize={{ minRows: 3, maxRows: 6 }}
         className={style['main-input']}
         onChange={handInput}
         ref={text}
@@ -126,6 +126,7 @@ const NewPost = (): JSX.Element => {
         shape='round'
         className={style['emit-btn']}
         onClick={newPost}
+        loading={loading}
       >
         发射
       </Button>
