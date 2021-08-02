@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Button, message } from 'antd';
 import style from './comment.module.scss';
 import PostComment from './PostComment';
 import NewComment from './NewComment';
@@ -116,10 +116,22 @@ const CommentList = ({ id }: Props) => {
     }
   );
 
+  // 保存获取的的评论到状态
   const [comments, setComments] = useState<UserComment[]>();
+  // 下次的游标
+  const [cursor, setCursor] = useState(data?.comments.cursor);
+  // 是否有下一页
+  const [hasNextPage, setNextPage] = useState(data?.comments.hasNextPage);
+  // 加载更多按钮状态
+  const [moreLoading, setMoreLoading] = useState(false);
 
   useEffect(() => {
-    data && setComments(data.comments.comments);
+    // 评论加载完后，缓存到状态
+    if (data) {
+      setComments(data.comments.comments);
+      setCursor(data.comments.cursor);
+      setNextPage(data.comments.hasNextPage);
+    }
   }, [data]);
 
   /**
@@ -166,6 +178,12 @@ const CommentList = ({ id }: Props) => {
     setComments(deepCom);
   };
 
+  /**
+   * 该方法用于发送了新的评论后更新 state
+   * @param newComment 新评论
+   * @param isReply 是否是回复评论
+   * @param parentId 回复的父评论 id
+   */
   const updateNewComment = (
     newComment: UserComment | Reply,
     isReply?: boolean,
@@ -186,7 +204,6 @@ const CommentList = ({ id }: Props) => {
            * 他们二者其实是一样的
            */
           item.reply.push(newComment as Reply);
-          console.log(item);
           return;
         }
       };
@@ -195,8 +212,31 @@ const CommentList = ({ id }: Props) => {
     } else {
       // 这里一直都会是 false ，因为 newComment 根本没有 parent
       // 这也是上述需要使用断言的原因
-      'parent' in newComment || deepCom?.unshift(newComment);
+      deepCom?.unshift(newComment as UserComment);
       setComments(deepCom);
+    }
+  };
+
+  /**
+   * 加载更多评论
+   */
+  const loadMore = async () => {
+    if (hasNextPage) {
+      setMoreLoading(true);
+      const { data: newData } = await fetchMore({
+        variables: { commentsPost: id, commentsCursor: cursor },
+      });
+      const newComments = newData.comments;
+      let deepCom = cloneDeep(comments);
+      deepCom && (deepCom = [...deepCom, ...newComments.comments]);
+      // 保存新的评论到状态中
+      setComments(deepCom);
+      setCursor(newComments.cursor);
+      setNextPage(newComments.hasNextPage);
+      // 设置按钮加载状态
+      setMoreLoading(false);
+    } else {
+      message.info('已经没有啦🤯');
     }
   };
 
@@ -208,26 +248,42 @@ const CommentList = ({ id }: Props) => {
         <>
           <Card className={style['com-card']}>
             {comments.length ? (
-              comments.map((item) => (
-                <PostComment
-                  key={item.id}
-                  postComment={item}
-                  updateComments={updateComments}
-                  updateNewComment={updateNewComment}
-                  postId={id}
-                >
-                  {item.reply.map((rep) => (
-                    <PostComment
-                      key={rep.id}
-                      postComment={rep}
-                      updateComments={updateComments}
-                      updateNewComment={updateNewComment}
-                      postId={id}
-                      parentId={rep.parent}
-                    />
-                  ))}
-                </PostComment>
-              ))
+              <>
+                {comments.map((item) => (
+                  <PostComment
+                    key={item.id}
+                    postComment={item}
+                    updateComments={updateComments}
+                    updateNewComment={updateNewComment}
+                    postId={id}
+                  >
+                    {item.reply.map((rep) => (
+                      <PostComment
+                        key={rep.id}
+                        postComment={rep}
+                        updateComments={updateComments}
+                        updateNewComment={updateNewComment}
+                        postId={id}
+                        parentId={rep.parent}
+                      />
+                    ))}
+                  </PostComment>
+                ))}
+                {hasNextPage ? (
+                  <Button
+                    block
+                    className={style['load-more']}
+                    onClick={loadMore}
+                    loading={moreLoading}
+                  >
+                    加载更多
+                  </Button>
+                ) : (
+                  <Button block className={style['load-more']} disabled={true}>
+                    已经没有啦
+                  </Button>
+                )}
+              </>
             ) : (
               <span className={style['no-comment']}>快来说两句吧🎤</span>
             )}

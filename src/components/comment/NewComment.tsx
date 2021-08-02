@@ -133,7 +133,6 @@ const NewComment = ({
         });
         data?.newComment.id && setDraft('');
         data && updateNewComment(data.newComment, true, parentId);
-        console.log(data);
       } else {
         const { data } = await emitPost({
           variables: { newCommentContent: draft, newCommentPost: id },

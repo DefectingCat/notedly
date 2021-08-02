@@ -151,25 +151,27 @@ const PostComment = ({
         {children}
       </Comment>
       {showReply ? (
-        parentId ? (
-          <NewComment
-            id={postId}
-            updateNewComment={updateNewComment}
-            isReply
-            toUserId={author.id}
-            parentId={parentId}
-            closeText={closeText}
-          />
-        ) : (
-          <NewComment
-            id={postId}
-            updateNewComment={updateNewComment}
-            isReply
-            toUserId={author.id}
-            parentId={id}
-            closeText={closeText}
-          />
-        )
+        <div className={style['reply-text']}>
+          {parentId ? (
+            <NewComment
+              id={postId}
+              updateNewComment={updateNewComment}
+              isReply
+              toUserId={author.id}
+              parentId={parentId}
+              closeText={closeText}
+            />
+          ) : (
+            <NewComment
+              id={postId}
+              updateNewComment={updateNewComment}
+              isReply
+              toUserId={author.id}
+              parentId={id}
+              closeText={closeText}
+            />
+          )}
+        </div>
       ) : (
         void 0
       )}
