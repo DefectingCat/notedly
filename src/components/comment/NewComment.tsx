@@ -145,7 +145,6 @@ const NewComment = ({
     } catch (e) {
       console.log(e);
       message.error('发送失败😲');
-    } finally {
     }
   };
 

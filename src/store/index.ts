@@ -40,6 +40,7 @@ interface State {
   myNotes?: Notes[];
   myCursor: string;
   myNext: boolean;
+  openRely: boolean;
 }
 
 const userState = atom({
@@ -55,6 +56,7 @@ const userState = atom({
     homeNext: false,
     myCursor: '',
     myNext: false,
+    openRely: false,
   },
 });
 

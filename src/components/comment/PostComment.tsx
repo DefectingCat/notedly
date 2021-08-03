@@ -69,8 +69,9 @@ const PostComment = ({
   parentId,
   children,
 }: Props) => {
-  const { state } = useStore();
+  const { state, setUserState } = useStore();
   const [showReply, setShowReply] = useState(false);
+  const [isSelf, setIsSelf] = useState(false);
 
   // 解构 props
   const { id, author, content, favoriteCount, favoritedBy, createdAt } =
@@ -126,6 +127,34 @@ const PostComment = ({
     setShowReply(false);
   };
 
+  /**
+   * 点击【回复】按钮事件
+   * 首先将 isSelf 设置为 true
+   * 表明本次是当前组件打开回复框
+   * 并利用状态管理通知其他组件
+   */
+  const handleText = () => {
+    setIsSelf(true);
+    setUserState({ ...state, openRely: true });
+    setShowReply(!showReply);
+  };
+
+  /**
+   * 其他组件没有被点击【回复】按钮
+   * 所以 isSelf 为 false
+   * 接收到状态管理的变化时
+   * 就检查自身是否开启了回复框
+   * 并关闭
+   */
+  useEffect(() => {
+    if (!isSelf && showReply && state.openRely) {
+      closeText();
+    }
+    setIsSelf(false);
+    setUserState({ ...state, openRely: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.openRely]);
+
   const actions = [
     <Tooltip key='comment-basic-like' title='Like'>
       <span onClick={toFavo} className={style['comment-like']}>
@@ -133,7 +162,7 @@ const PostComment = ({
         <span className={style['comment-like-action']}>{favoriteCount}</span>
       </span>
     </Tooltip>,
-    <span key='comment-basic-reply-to' onClick={() => setShowReply(!showReply)}>
+    <span key='comment-basic-reply-to' onClick={handleText}>
       回复
     </span>,
   ];
