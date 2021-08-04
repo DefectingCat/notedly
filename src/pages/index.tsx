@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // children
 import Navi from '../components/aside/Navi';
-import { Row, Col, BackTop, Spin } from 'antd';
+import { Row, Col, BackTop, Spin, Grid } from 'antd';
 import style from './pages.module.scss';
 import PrivateRoute from '../components/common/PrivateRoute';
 
@@ -13,15 +13,25 @@ const NotePage = lazy(() => import('./NotePage'));
 const SignUp = lazy(() => import('./SignUp'));
 const Login = lazy(() => import('./Login'));
 
+const { useBreakpoint } = Grid;
+
 const Pages = (): JSX.Element => {
+  const screens = useBreakpoint();
+
+  /**
+   * @TODO 添加移动端菜单按钮
+   */
+  const { xs } = screens;
+  console.log(xs);
+
   return (
     <>
       <Router>
         <Row justify='center'>
-          <Col xs={0} md={9}>
+          <Col xs={0} sm={6} md={6} lg={7} xl={9}>
             <Navi />
           </Col>
-          <Col xs={23} md={6}>
+          <Col xs={23} sm={12} md={12} lg={10} xl={6}>
             <Suspense
               fallback={
                 <div className={style.loading}>
@@ -38,7 +48,7 @@ const Pages = (): JSX.Element => {
               </Switch>
             </Suspense>
           </Col>
-          <Col xs={0} md={9}>
+          <Col xs={0} sm={6} md={6} lg={7} xl={9}>
             咸鱼偷懒中
           </Col>
           <BackTop />

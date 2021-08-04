@@ -7,6 +7,7 @@ import useStore from '../../store';
 import { useHistory } from 'react-router';
 import { useMutation, gql } from '@apollo/client';
 import cloneDeep from 'lodash/cloneDeep';
+import parseTime from '../../hooks/util/parseTime';
 
 const { Meta } = Card;
 
@@ -149,10 +150,7 @@ const Post = (props: Notes): JSX.Element => {
           <Meta
             avatar={<Avatar src={author.avatar} />}
             title={`${author.username}`}
-            description={`${createdAt.substr(0, 10)} ${createdAt.substr(
-              11,
-              8
-            )}`}
+            description={parseTime(createdAt)}
           />
           <div className={style['post-card-body']}>{content}</div>
         </div>

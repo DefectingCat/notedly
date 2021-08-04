@@ -100,8 +100,10 @@ const NewPost = (): JSX.Element => {
       if (notes || myNotes) {
         const deepNotes = cloneDeep(notes);
         const deepMyNotes = cloneDeep(myNotes);
-        data && deepNotes?.unshift(data?.newNote);
-        data && deepMyNotes?.unshift(data?.newNote);
+        if (data) {
+          deepNotes?.unshift(data?.newNote);
+          deepMyNotes?.unshift(data?.newNote);
+        }
         setUserState({ ...state, notes: deepNotes, myNotes: deepMyNotes });
       }
     } catch (e) {

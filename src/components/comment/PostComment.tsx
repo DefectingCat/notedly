@@ -6,6 +6,7 @@ import { UserComment, Reply } from './CommentList';
 import useStore from '../../store';
 import { useMutation, gql } from '@apollo/client';
 import NewComment from './NewComment';
+import parseTime from '../../hooks/util/parseTime';
 
 interface Props {
   postComment: UserComment | Reply;
@@ -173,7 +174,7 @@ const PostComment = ({
         actions={actions}
         author={`${author.username} ${
           toUser ? `@${toUser.username}` : ''
-        } ${createdAt?.substr(0, 10)} ${createdAt?.substr(11, 8)}`}
+        } ${parseTime(createdAt)}`}
         avatar={<Avatar src={author.avatar} alt={author.username} />}
         content={<p>{content}</p>}
       >

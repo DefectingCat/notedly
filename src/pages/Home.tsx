@@ -84,6 +84,9 @@ const Home = (): JSX.Element => {
     !loading && window.scrollTo(0, state.scrolledTop);
   }, [loading, state.scrolledTop]);
 
+  /**
+   * 将 Apollo 请求到的数据保存到状态管理
+   */
   let { notes, homeCursor, homeNext } = state;
   useEffect(() => {
     if (!notes) {

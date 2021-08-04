@@ -4,6 +4,29 @@ import style from './navi.module.scss';
 import useStore from '../../store';
 import IconFont from '../common/icon/NotedlyIcons';
 
+type NaviItem =
+  | {
+      to: string;
+      name: string;
+      icon: string;
+      private?: undefined;
+      logined?: undefined;
+    }
+  | {
+      to: string;
+      name: string;
+      icon: string;
+      private: boolean;
+      logined?: undefined;
+    }
+  | {
+      to: string;
+      name: string;
+      icon: string;
+      logined: boolean;
+      private?: undefined;
+    };
+
 const routes = [
   {
     to: '/',
@@ -23,6 +46,22 @@ const routes = [
     logined: true,
   },
 ];
+
+/**
+ * 重复逻辑抽离
+ * @param item 循环中的单个菜单项
+ * @returns
+ */
+const Navis = (item: NaviItem) => {
+  return (
+    <NavLink exact to={item.to} activeClassName={style.active} key={item.to}>
+      <div className={style['navi-btn']}>
+        <IconFont type={item.icon} />
+        <span>{item.name}</span>
+      </div>
+    </NavLink>
+  );
+};
 
 const Navi = (): JSX.Element => {
   const { state } = useStore();
@@ -46,35 +85,9 @@ const Navi = (): JSX.Element => {
            * 则不加载 private 的菜单。
            */
           if (state.isLoggedIn) {
-            if (!item.logined)
-              return (
-                <NavLink
-                  exact
-                  to={item.to}
-                  activeClassName={style.active}
-                  key={item.to}
-                >
-                  <div className={style['navi-btn']}>
-                    <IconFont type={item.icon} />
-                    <span>{item.name}</span>
-                  </div>
-                </NavLink>
-              );
+            if (!item.logined) return Navis(item);
           } else {
-            if (!item.private)
-              return (
-                <NavLink
-                  exact
-                  to={item.to}
-                  activeClassName={style.active}
-                  key={item.to}
-                >
-                  <div className={style['navi-btn']}>
-                    <IconFont type={item.icon} />
-                    <span>{item.name}</span>
-                  </div>
-                </NavLink>
-              );
+            if (!item.private) return Navis(item);
           }
         })}
       </nav>

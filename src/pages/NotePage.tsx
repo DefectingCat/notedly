@@ -9,6 +9,7 @@ import Header from '../components/common/Header';
 import { useHistory } from 'react-router';
 import IconFont from '../components/common/icon/NotedlyIcons';
 import { lazy, Suspense, useState } from 'react';
+import parseTime from '../hooks/util/parseTime';
 
 const { Meta } = Card;
 
@@ -106,10 +107,7 @@ const NotePage = (): JSX.Element => {
           <Meta
             avatar={<Avatar src={author.avatar} />}
             title={`@${author.username}`}
-            description={`${createdAt.substr(0, 10)} ${createdAt.substr(
-              11,
-              8
-            )}`}
+            description={parseTime(createdAt)}
           />
           <div className={style['post-card-body']}>{content}</div>
         </Card>
