@@ -11,4 +11,4 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 FROM nginx:alpine
 WORKDIR /root
-COPY --from=builder /root/build /usr/share/nginx/html
+COPY --from=builder /root/build /usr/share/nginx/html/notedly

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // children
 import Navi from '../components/aside/Navi';
 import { Row, Col, BackTop, Spin } from 'antd';
