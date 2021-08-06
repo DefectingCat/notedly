@@ -1,3 +1,40 @@
 .main-header {
   padding: 4px !important;
 }
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .icon {
+    margin-right: 6px;
+  }
+  .btn {
+    position: relative;
+  }
+  .model {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 9;
+    top: 0;
+    left: 0;
+  }
+  .none-model {
+    display: none;
+  }
+  .navi {
+    display: block;
+    position: absolute;
+    background: #fff;
+    z-index: 10;
+    right: -28px;
+    top: 47px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  .none-navi {
+    right: -208px;
+    transition: all 0.3s ease;
+  }
+}

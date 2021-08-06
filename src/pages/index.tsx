@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // children
 import Navi from '../components/aside/Navi';
-import { Row, Col, BackTop, Spin, Grid } from 'antd';
+import { Row, Col, BackTop, Spin } from 'antd';
 import style from './pages.module.scss';
 import PrivateRoute from '../components/common/PrivateRoute';
 
@@ -13,17 +13,7 @@ const NotePage = lazy(() => import('./NotePage'));
 const SignUp = lazy(() => import('./SignUp'));
 const Login = lazy(() => import('./Login'));
 
-const { useBreakpoint } = Grid;
-
 const Pages = (): JSX.Element => {
-  const screens = useBreakpoint();
-
-  /**
-   * @TODO 添加移动端菜单按钮
-   */
-  const { xs } = screens;
-  console.log(xs);
-
   return (
     <>
       <Router>
