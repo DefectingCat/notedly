@@ -6,6 +6,8 @@ import useStore from '../../store';
 import { useHistory } from 'react-router';
 import { TextAreaRef } from 'antd/lib/input/TextArea';
 import cloneDeep from 'lodash/cloneDeep';
+// import IconFont from '../common/icon/NotedlyIcons';
+// import useAxios from '../../hooks/useAxios';
 
 const { TextArea } = Input;
 
@@ -66,6 +68,36 @@ const NewPost = (): JSX.Element => {
   // textarea ref
   const text = useRef<TextAreaRef>(null);
 
+  // const axios = useAxios();
+  // 上传进度
+  /*   const [progress, setProgress] = useState(0);
+
+  const handleUpload = async (options: any) => {
+    const { onSuccess, onError, file, onProgress } = options;
+    const fmData = new FormData();
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: (event: { loaded: number; total: number }) => {
+        const percent = Math.floor((event.loaded / event.total) * 100);
+        setProgress(percent);
+        if (percent === 100) {
+          setTimeout(() => setProgress(0), 1000);
+        }
+        onProgress({ percent: (event.loaded / event.total) * 100 });
+      },
+    };
+    fmData.append('file', file);
+    try {
+      const res = await axios.post('', fmData, config);
+      onSuccess('Ok');
+      console.log('server res: ', res);
+    } catch (err) {
+      console.log('Eroor: ', err);
+      const error = new Error('Some error');
+      onError({ err });
+    }
+  }; */
+
   const handInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const target = e.target;
     setDraft(target.value);
@@ -123,6 +155,7 @@ const NewPost = (): JSX.Element => {
         allowClear
         value={draft}
       />
+
       <Button
         type='primary'
         shape='round'
@@ -132,6 +165,12 @@ const NewPost = (): JSX.Element => {
       >
         发射
       </Button>
+
+      {/*       <Upload customRequest={handleUpload}>
+        <Button shape='round' className={style['emit-btn']}>
+          <IconFont type='icon-tupian' />
+        </Button>
+      </Upload> */}
     </>
   );
 };

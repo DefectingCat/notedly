@@ -1,7 +1,7 @@
 import { createFromIconfontCN } from '@ant-design/icons';
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: ['//at.alicdn.com/t/font_2687533_7z5p999d1z.js'],
+  scriptUrl: ['//at.alicdn.com/t/font_2687533_1b6lfn1qr4f.js'],
 });
 
 /* export const Heart = () => {

@@ -5,6 +5,7 @@
   "homepage": "/notedly/",
   "dependencies": {
     "@apollo/client": "^3.3.21",
+    "axios": "^0.21.1",
     "github-markdown-css": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
