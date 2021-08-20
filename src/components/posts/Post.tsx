@@ -8,6 +8,7 @@ import { useHistory } from 'react-router';
 import { useMutation, gql } from '@apollo/client';
 import cloneDeep from 'lodash/cloneDeep';
 import parseTime from '../../hooks/util/parseTime';
+import ReactMarkdown from 'react-markdown';
 
 const { Meta } = Card;
 
@@ -152,7 +153,9 @@ const Post = (props: Notes): JSX.Element => {
             title={`${author.username}`}
             description={parseTime(createdAt)}
           />
-          <div className={style['post-card-body']}>{content}</div>
+          <div className={`${style['post-card-body']} markdown-body`}>
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </div>
         </div>
       </Card>
     </>

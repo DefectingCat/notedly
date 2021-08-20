@@ -38,9 +38,7 @@ const Pages = (): JSX.Element => {
               </Switch>
             </Suspense>
           </Col>
-          <Col xs={0} sm={6} md={6} lg={7} xl={9}>
-            咸鱼偷懒中
-          </Col>
+          <Col xs={0} sm={6} md={6} lg={7} xl={9}></Col>
           <BackTop />
         </Row>
       </Router>

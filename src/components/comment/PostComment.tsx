@@ -7,6 +7,7 @@ import useStore from '../../store';
 import { useMutation, gql } from '@apollo/client';
 import NewComment from './NewComment';
 import parseTime from '../../hooks/util/parseTime';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
   postComment: UserComment | Reply;
@@ -176,7 +177,11 @@ const PostComment = ({
           toUser ? `@${toUser.username}` : ''
         } ${parseTime(createdAt)}`}
         avatar={<Avatar src={author.avatar} alt={author.username} />}
-        content={<p>{content}</p>}
+        content={
+          <p className='markdown-body'>
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </p>
+        }
       >
         {children}
       </Comment>

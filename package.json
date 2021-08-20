@@ -5,10 +5,12 @@
   "homepage": "/notedly/",
   "dependencies": {
     "@apollo/client": "^3.3.21",
+    "github-markdown-css": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-markdown": "^7.0.0",
     "react-router-dom": "^5.2.0",
     "recoil": "^0.3.1",
     "web-vitals": "^1.0.1"

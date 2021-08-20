@@ -31,7 +31,7 @@ const ActionBar = ({
         {/* 这个是评论按钮💬 */}
         <div className={`${style.action}`}>
           <IconFont type='icon-comment' />
-          <span>{commentNum}</span>
+          <span>{commentNum == null ? 0 : commentNum}</span>
         </div>
       </div>
     </>

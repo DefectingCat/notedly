@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import IconFont from '../components/common/icon/NotedlyIcons';
 import { lazy, Suspense, useState } from 'react';
 import parseTime from '../hooks/util/parseTime';
+import ReactMarkdown from 'react-markdown';
 
 const { Meta } = Card;
 
@@ -109,7 +110,9 @@ const NotePage = (): JSX.Element => {
             title={`@${author.username}`}
             description={parseTime(createdAt)}
           />
-          <div className={style['post-card-body']}>{content}</div>
+          <div className={`${style['post-card-body']} markdown-body`}>
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </div>
         </Card>
 
         <Suspense

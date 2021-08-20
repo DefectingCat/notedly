@@ -8,6 +8,7 @@ import { ApolloClient, ApolloProvider, createHttpLink } from '@apollo/client';
 import { RecoilRoot } from 'recoil';
 import { setContext } from '@apollo/client/link/context';
 import cache from './cache';
+import 'github-markdown-css';
 
 /**
  * 这是为 HTTP 头添加 authorization 的方法
@@ -24,7 +25,11 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = createHttpLink({
   // uri: 'http://localhost:4000/graphql',
-  uri: 'https://api.defectink.com/notedly/graphql',
+  // uri: 'https://api.defectink.com/notedly/graphql',
+  uri:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.defectink.com/notedly/graphql'
+      : 'http://localhost:4000/graphql',
 });
 
 const client = new ApolloClient({
