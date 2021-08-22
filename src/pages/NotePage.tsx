@@ -58,7 +58,7 @@ const GET_NOTE = gql`
   }
 `;
 
-const NotePage = (): JSX.Element => {
+const NotePage: React.FC = () => {
   // 当前 post id ，由父组件传递
   const { id } = useParams<Params>();
 

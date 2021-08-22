@@ -63,7 +63,7 @@ const Navis = (item: NaviItem) => {
   );
 };
 
-const Navi = (): JSX.Element => {
+const Navi: React.FC = () => {
   const { state } = useStore();
 
   useEffect(() => {

@@ -106,7 +106,7 @@ const GET_COMMENT = gql`
   }
 `;
 
-const CommentList = ({ id }: Props) => {
+const CommentList: React.FC<Props> = ({ id }: Props) => {
   const { data, loading, fetchMore } = useQuery<Comments, ComVars>(
     GET_COMMENT,
     {

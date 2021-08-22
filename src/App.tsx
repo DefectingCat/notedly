@@ -19,7 +19,7 @@ interface QueryKey {
   };
 }
 
-function App(): JSX.Element {
+const App: React.FC = () => {
   const { state, setUserState } = useStore();
   const [fetchQuery, { data }] = useLazyQuery<QueryKey>(ME);
 
@@ -42,6 +42,6 @@ function App(): JSX.Element {
       <Pages />
     </>
   );
-}
+};
 
 export default App;

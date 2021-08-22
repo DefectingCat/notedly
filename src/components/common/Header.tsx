@@ -12,7 +12,7 @@ interface Props {
 
 const { useBreakpoint } = Grid;
 
-const Header = ({ title, backable, onBack }: Props): JSX.Element => {
+const Header: React.FC<Props> = ({ title, backable, onBack }: Props) => {
   const screens = useBreakpoint();
   const { xs } = screens;
 

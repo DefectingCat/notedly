@@ -27,7 +27,7 @@ const LOGIN = gql`
   }
 `;
 
-const Login = (): JSX.Element => {
+const Login: React.FC = () => {
   const { state, setUserState } = useStore();
 
   const [login, { loading }] = useMutation<LoginToken, LoginVars>(LOGIN);

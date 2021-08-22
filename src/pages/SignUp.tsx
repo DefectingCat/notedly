@@ -31,7 +31,7 @@ interface FormVal {
   username: string;
 }
 
-const SignUp = (): JSX.Element => {
+const SignUp: React.FC = () => {
   const [signUp, { loading }] = useMutation<SignUpToken, SignUpVars>(SIGN_UP, {
     onCompleted: (data) => {
       // 持久化 token

@@ -89,7 +89,7 @@ const NEW_COM = gql`
   }
 `;
 
-const NewComment = ({
+const NewComment: React.FC<Props> = ({
   id,
   updateNewComment,
   isReply,

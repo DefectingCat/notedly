@@ -60,7 +60,7 @@ const NEW_POST = gql`
   }
 `;
 
-const NewPost = (): JSX.Element => {
+const NewPost: React.FC = () => {
   // textarea 输入内容
   const [draft, setDraft] = useState('');
   const { state, setUserState } = useStore();

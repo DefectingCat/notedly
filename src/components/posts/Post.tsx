@@ -45,7 +45,7 @@ const FAVO_QL = gql`
   }
 `;
 
-const Post = (props: Notes): JSX.Element => {
+const Post: React.FC<Notes> = (props: Notes) => {
   const { id, createdAt, content, author, commentNum } = props;
   let { favoritedBy, favoriteCount } = props;
 

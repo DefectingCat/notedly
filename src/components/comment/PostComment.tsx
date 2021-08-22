@@ -63,7 +63,7 @@ const FAVO_QL = gql`
   }
 `;
 
-const PostComment = ({
+const PostComment: React.FC<Props> = ({
   postComment,
   updateComments,
   updateNewComment,

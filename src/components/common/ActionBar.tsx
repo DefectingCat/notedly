@@ -9,12 +9,12 @@ interface Props {
   toFavo: () => Promise<void>;
 }
 
-const ActionBar = ({
+const ActionBar: React.FC<Props> = ({
   favoriteCount,
   favoed,
   commentNum,
   toFavo,
-}: Props): JSX.Element => {
+}: Props) => {
   return (
     <>
       <div className={style.warpper}>

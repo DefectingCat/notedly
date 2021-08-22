@@ -13,7 +13,7 @@ const NotePage = lazy(() => import('./NotePage'));
 const SignUp = lazy(() => import('./SignUp'));
 const Login = lazy(() => import('./Login'));
 
-const Pages = (): JSX.Element => {
+const Pages: React.FC = () => {
   return (
     <>
       <Router>

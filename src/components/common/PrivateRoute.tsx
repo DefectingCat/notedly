@@ -10,7 +10,7 @@ import useStore from '../../store';
  * @param routeProps 传递给 Route 的路由参数
  * @returns
  */
-const PrivateRoute = ({ ...routeProps }: RouteProps) => {
+const PrivateRoute: React.FC<RouteProps> = ({ ...routeProps }: RouteProps) => {
   const { state } = useStore();
 
   /**

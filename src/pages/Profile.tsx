@@ -51,7 +51,7 @@ const MY_NOTES = gql`
   }
 `;
 
-const MyNote = (): JSX.Element => {
+const MyNote: React.FC = () => {
   const { state, setUserState } = useStore();
 
   const { data, loading, error, fetchMore } = useQuery<MyNotes, CursorVars>(
