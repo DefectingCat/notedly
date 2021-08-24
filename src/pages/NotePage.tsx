@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Avatar, Card, Spin } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
 import style from './notepage.module.scss';
 import LoadingCard from '../components/common/LoadingCard';
 import LoadError from '../components/common/LoadError';
@@ -11,6 +10,7 @@ import IconFont from '../components/common/icon/NotedlyIcons';
 import { lazy, Suspense, useState } from 'react';
 import parseTime from '../hooks/util/parseTime';
 import ReactMarkdown from 'react-markdown';
+import MoreAction from '../components/common/MoreAction';
 
 const { Meta } = Card;
 
@@ -102,7 +102,7 @@ const NotePage: React.FC = () => {
           className={style['post-card']}
           actions={[
             <IconFont type='icon-comment' onClick={openComment} />,
-            <EllipsisOutlined key='ellipsis' />,
+            <MoreAction postId={id} userId={author.id} />,
           ]}
         >
           <Meta

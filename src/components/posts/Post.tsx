@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Card, message } from 'antd';
 import style from './post.module.scss';
-import { Notes } from '../../pages/Home';
+import { Notes } from '../../hooks/graphQL/useHomeQL';
 import ActionBar from '../common/ActionBar';
 import useStore from '../../store';
 import { useHistory } from 'react-router';

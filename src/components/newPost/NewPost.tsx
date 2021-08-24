@@ -6,8 +6,6 @@ import useStore from '../../store';
 import { useHistory } from 'react-router';
 import { TextAreaRef } from 'antd/lib/input/TextArea';
 import cloneDeep from 'lodash/cloneDeep';
-// import IconFont from '../common/icon/NotedlyIcons';
-// import useAxios from '../../hooks/useAxios';
 
 const { TextArea } = Input;
 

@@ -15,7 +15,7 @@
 //   dispatch: React.Dispatch<Action>;
 // } => useContext(storeContext);
 import { atom, useRecoilState, SetterOrUpdater } from 'recoil';
-import { Notes } from '../pages/Home';
+import { Notes } from '../hooks/graphQL/useHomeQL';
 
 interface State {
   isLoggedIn: boolean;

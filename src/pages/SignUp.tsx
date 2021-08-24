@@ -8,13 +8,13 @@ export interface SignUpToken {
   signUp: string;
 }
 
-interface SignUpVars {
+export interface SignUpVars {
   username: string;
   email: string;
   password: string;
 }
 
-const SIGN_UP = gql`
+export const SIGN_UP = gql`
   mutation SignUpMutation(
     $username: String!
     $email: String!
@@ -24,7 +24,7 @@ const SIGN_UP = gql`
   }
 `;
 
-interface FormVal {
+export interface FormVal {
   'c-password': string;
   email: string;
   password: string;
