@@ -23,19 +23,40 @@ const MoreAction: React.FC<Props> = ({ postId, userId }) => {
    * 直接更新 state 中的数据
    * 将当前已经删除的 post 删除
    */
-  const deleteNote = () => {
-    if (notes && myNotes) {
-      const deepNotes = cloneDeep(notes);
-      const deepMyNotes = cloneDeep(myNotes);
+  const deleteNote = async () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const deepNotes = cloneDeep(notes);
+        const deepMyNotes = cloneDeep(myNotes);
 
-      const noteIndex = deepNotes?.findIndex((item) => item.id === postId);
-      const myNoteIndex = deepMyNotes?.findIndex((item) => item.id === postId);
+        // 从两个状态中寻找对应的数据
+        if (deepNotes) {
+          const noteIndex = deepNotes.findIndex((item) => item.id === postId);
+          deepNotes.splice(noteIndex, 1);
+        }
 
-      deepNotes.splice(noteIndex, 1);
-      deepMyNotes.splice(myNoteIndex, 1);
+        if (deepMyNotes) {
+          const myNoteIndex = deepMyNotes.findIndex(
+            (item) => item.id === postId
+          );
+          deepMyNotes.splice(myNoteIndex, 1);
+        }
 
-      setUserState({ ...state, notes: deepNotes, myNotes: deepMyNotes });
-    }
+        // setUserState 只能执行一次
+        // 所以必须判断两个状态是否有一个不存在，避免将 undifined 存入
+        if (deepNotes && deepMyNotes) {
+          setUserState({ ...state, notes: deepNotes, myNotes: deepMyNotes });
+        } else if (deepNotes) {
+          setUserState({ ...state, notes: deepNotes });
+        } else {
+          setUserState({ ...state, myNotes: deepMyNotes });
+        }
+
+        resolve(null);
+      } catch (e) {
+        reject(e);
+      }
+    });
   };
 
   const handleDelete = async () => {
@@ -45,7 +66,7 @@ const MoreAction: React.FC<Props> = ({ postId, userId }) => {
       },
     });
     if (!result) return message.error('删除失败😲');
-    deleteNote();
+    await deleteNote();
     message.success('删除成功🦄');
     history.go(-1);
   };
