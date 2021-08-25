@@ -32,12 +32,14 @@ export interface FormVal {
 }
 
 const SignUp: React.FC = () => {
-  const [signUp, { loading }] = useMutation<SignUpToken, SignUpVars>(SIGN_UP, {
+  const [signUp, { loading }] = useMutation<SignUpToken, SignUpVars>(SIGN_UP);
+
+  /*   {
     onCompleted: (data) => {
       // 持久化 token
       window.localStorage.setItem('token', data.signUp);
     },
-  });
+  } */
 
   // 表单对象 主要用于重置表单
   const [signUpForm] = Form.useForm();
@@ -53,9 +55,15 @@ const SignUp: React.FC = () => {
   const onFinish = async (values: FormVal) => {
     const { username, email, password } = values;
     try {
-      await signUp({
+      const data = await signUp({
         variables: { username, email, password },
       });
+
+      // 持久化 token
+      if (data.data?.signUp === 'false') throw new Error('Can not registry');
+      data.data?.signUp &&
+        window.localStorage.setItem('token', data.data.signUp);
+
       message.success('注册成功🎉');
       history.push('/');
     } catch (e) {
