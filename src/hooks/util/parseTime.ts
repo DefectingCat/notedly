@@ -4,7 +4,10 @@
  * @returns
  */
 const parseTime = (time: string) => {
-  return `${time.substr(0, 10)} ${time.substr(11, 8)}`;
+  return `${time.substr(0, 10)} ${Number(time.substr(11, 2)) + 8}${time.substr(
+    13,
+    6
+  )}`;
 };
 
 export default parseTime;
